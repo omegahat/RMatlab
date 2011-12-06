@@ -1,0 +1,8 @@
+# Read the mexopts.sh
+
+MATLAB_HOME=/usr/local/matlab-7.0.1
+PKG_CPPFLAGS=-I$(MATLAB_HOME)/extern/include -I$(MATLAB_HOME)/simulink/include -DMATLAB_MEX_FILE -pthread -fexceptions -m32  -DARGCHECK  -DNDEBUG
+PKG_LIBS=-pthread  -L$(MATLAB_HOME)/bin/glnx86  -leng -lmx -lmex -lmat  -lm -lstdc++
+
+# -Wl,--version-script,/usr/local/matlab-7.0.1/extern/lib/glnx86/mexFunction.map
+# And --rpath-link

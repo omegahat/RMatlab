@@ -1,0 +1,17 @@
+useDynLib(RMatlab)
+
+export(.MatlabInit, .MatlabClose)
+export(.MatlabEval, .MatlabGet, .MatlabPut, .MatlabRemove)
+export(.Matlab)
+
+export(.REvalString)
+export(.MatlabMexCall)
+
+export(getMatlabGraphicsProperty, setMatlabGraphicsProperty)
+
+export(getMatlabInterface)
+
+S3method("[[", MatlabInterface)
+S3method("[", MatlabInterface)
+S3method("[<-", MatlabInterface)
+S3method("$", MatlabInterface)

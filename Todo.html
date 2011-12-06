@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Todo list for RMatlab.</title>
+</head>
+
+<body>
+
+<table border="1">
+<tr>
+<th><a href="#Configuration">Configuration</a></th>  
+<th><a href="#Infrastructure">Infrastructure</a></th>
+<th><a href="#Documentation">Documentation</a></th>
+<th><a href="#Examples">Examples</a></th>
+<th><a href="#Conversion">Conversion</a></th>        
+</tr>
+  
+</table>
+
+
+<h1><a name="Configuration">Configuration</a></h1>
+
+<dl>
+  <dt>
+  <li> Locate the engopts.sh file so we can use it in the build of RMatlab.so
+  <dd>
+  <dt>
+  <li> Avoid the use of the hard-coded .so extension. Compute from R's
+       R configuration.
+  <dd>
+
+  <dt>
+  <li> Verify that we have an appropriate version of Matlab, i.e. test
+      the version.
+  <dd>
+</dl>
+
+Documentation for newly added functions.
+
+<h1><a name="Infrastructure">Infra-structure.</a></h1>
+
+<dl>
+  <dt>
+  <li> Explore the Matlab graphics and the handles.
+  <dd>
+  <dt>
+  <li><font color="red">[Done]</font> Interface for calling R functions with named arguments from Matlab.
+  <dd> Does Matlab have named argument matching? I don't think so,
+        so you have to develop your own "convention"
+
+      <br>
+   Use the interface
+<pre>      
+      callNamedR('paste', 1:3, 5:7, {'collapse', ' < ', 'sep', ', '})
+</pre>
+      i.e. the last argument is a cell of name-value pairs.
+      <p>
+     Alternatively, allow a struct, using the field names as the
+     argument names and values as the arguments.
+<pre>      
+      callNamedR('paste', 1:3, 5:7, struct('collapse', ' < ', 'sep', ', '))
+</pre>
+  <dt>     
+  <li><font color="red">[Done]</font>
+      Recognize when we can use mex  calls from R rather than Engine calls.
+  <dd>  We now assign a value into the R global environment
+       during the call to initializeR and we can check for the
+       existence of this to understand when to use the MEX functions.
+<br>
+       Also, we have a function to get the default engine.
+
+  <dt>
+  <li><font color="red">[Done]</font>
+      Fill in the mex interface to parallel the engine API.
+  <dd>
+    mexGetVariable(Ptr),     mexSetVariable(Ptr)
+    mexEvalString
+    mexFunctionName
+    mexSet/mexGet  for graphics handle.
+
+
+
+  <dt>
+  <li><font color="red">[Done]</font> mxSetTrapFlag for controlling error.
+  <dd> The idea here is to ensure that if there is an error when calling
+   a Matlab function (via the MEX interface), that we control back.
+
+      
+  <dt> 
+  <li>Explore using mxSetAllocFcns to handle memory management.
+  <dd>  Probably not necessary.      
+</dl>
+
+<h2><a name="Documentation">Documentation</a></h2>
+<dl>
+  <dt>
+  <li><font color="red">[Done]</font> set/get graphics properties Rd files.
+  <dd>
+
+  <dt>
+  <li> outline.tex reference manual.
+  <dd>
+</dl>
+
+<h2><a name="Documentation">Examples</a></h2>
+<dl>
+  <dt> Explore some examples
+  <dd>
+
+      <dl>
+	<dt>
+	<li> ODEs/PDEs
+	<dd>
+	<dt>
+	<li> Optimization
+	<dd>
+
+	<dt>
+	<li> Speed of Matrix computations.
+	<dd>
+
+	<dt>
+	<li> Images.
+	<dd>
+
+	<dt>
+	<li> Speed in comparison with using files for data exchange.
+	<dd>
+      </dl>
+</dl>
+
+
+<h2><a name="Conversion">Conversion</a>.</h2>
+<dl>
+
+
+  <dt>
+  <li> terms and call  in an lm object being passed from R to Matlab.
+  <dd>
+
+  <dt>
+  <li> Sparse arrays.
+  <dd>  Perhaps use customized converters.
+      <br>
+         mxIsSparse().
+      
+  
+  <dt>
+  <li> Inf & NaN      
+  <dd> Numerics look like they basically work without special handling.
+       Integers behave oddly.
+       See the function nas(TRUE) in converterTests.R for anomolies.
+       Looks okay now.  Inf becomes NA.
+<br>
+      Strings from R become 'NA' in Matlab.
+      Converting the other way is not a good idea, i.e 'NA' in Matlab
+       becomes NA in R.
+      
+  <dt>
+  <li> Dates
+  <dd> datestr, datevec.
+ 
+  <dt>
+  <li> References, functions, etc.
+  <dd>  Pass a function to R.
+
+  <dt>
+  <li>mxSetClassName
+  <dd>
+  Classes for Matlab objects.
+  mxIsClass
+  Explore Matlab classes
+
+      <br>
+    Classes for representing R references.
+      
+  <dt>
+  <li>Extensible converter mechanism.
+  <dd> Use for, e.g, dates (e.g. POSIXct, POSIXlt)
+
+      
+
+  <dt>
+  <li><font color="red">[Done]</font> {Ui,I}nt{8,16,32,64}, Single from Matlab to R. 
+  <dd>
+       Need to look at the class of the different Matlab objects and
+       handle them appropriately.
+      <br>
+    Example of uint8
+   img = imread('/home/duncan/rggobi.png');
+
+        Done.
+
+       
+
+  <dt>
+  <li><font color="red">[Done]</font>Arrays.
+  <dd>
+  Rather than matrices.
+  Probably can reorganize the code to handle  vectors, matrices and arrays
+  in one common block of code given the way both systems store the objects.
+
+  <p>
+  Merge the vector, matrix and array converters into a single
+  block of code.
+  Done for R to Matlab for all basic types.
+  And for Matlab to R for all. Strings are a little weird
+       but I think they are okay.
+      <br>
+  Not done for cells.
+
+      
+  <dt>
+  <li><font color="red">[Done]</font> Complex numbers.
+  <dd> Done for R to Matlab and Matlab to R.
+      
+</dl>
+
+<h3> Done</h3>
+These could do with checking.
+
+      <dl>
+	<dt> convert struct to S object.
+	<dd> fix class.
+
+	<dt>string matrices from R to Matlab.
+	<dd>  create cells.
+      </dl>      
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Wed Nov 10 06:41:53 PST 2004
+<!-- hhmts end -->
+</body> </html>
+
+
+
+

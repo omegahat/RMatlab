@@ -1,0 +1,33 @@
+Using mex to compile C code for loading into R causes the
+routines to be defined as static.  This means they are
+not accessible via the .Call mechanism. Registration
+doesn't work as we still need the initialization routine
+to be dynamically resolved.
+To avoid this, we remove the version-script directive
+for the linker which identifies
+the mexFunction.map file that controls which are
+global and local symbols.
+
+Compiling using R's regular compilation causes
+problems with mexCallMATLAB not being defined.
+Unfortunately all they symbols have been removed
+from the matlab libraries.
+
+If we use the mex mechanism, but change the options to use 
+a different mexopts.sh file and remove the -version-script
+option that controls which .map file to use (to control the
+visibility of the symbols), then we can load this into
+R and see the symbols. Then what happens?
+
+When we start Matlab from R and then call any
+of the mex* routines via the R functions, 
+we get a segmentation fault.  However, if we
+use these same routines from a mex file
+invoked from within a regular Matlab session,
+they work fine. (See mexPutVariable in putvar.c.)
+
+The issue will probably amount to a simple oversight.
+
+We should look at mbuild and using stand-alon executables.
+
+Use the engopts.sh file to compile the 

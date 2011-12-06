@@ -1,0 +1,18 @@
+AC_INIT(index.html.in)
+
+VERSION=`cat ../DESCRIPTION | grep Version | sed -e 's/Version: //'`
+PACKAGE_NAME=`cat ../DESCRIPTION | grep Package | sed -e 's/Package: //'`
+
+echo "Package name: $PACKAGE_NAME"
+
+TAR_FILE=${PACKAGE_NAME}_${VERSION}.tar.gz
+
+
+AC_SUBST(VERSION)
+AC_SUBST(PACKAGE_NAME)
+
+AC_SUBST(TAR_FILE)
+
+AC_OUTPUT(index.html)
+
+

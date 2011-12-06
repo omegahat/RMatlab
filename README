@@ -1,0 +1,115 @@
+To call R from within Matlab, you will need to have R compiled as a
+shared library.  This needs to be done when compiling R from source
+(or via one of the binary distributions that have support for this.)
+
+Download the R source from cran.r-project.org.
+
+  tar zxf R-2.0.0.tar.gz
+  ./configure --enable-R-shlib
+  make
+
+Then, ensure that this version of R is in your path.
+Either install it or put the bin/ directory in your
+path.
+
+
+Install the RMatlab package as a regular R package.
+
+ R CMD INSTALL RMatlab.
+
+
+================================================================
+
+Running RMatlab.
+
+Tell matlab to look for MEX files in
+the directory <R package install directory>/RMatlab/libs
+Use the MATLABPATH environment variable for this.
+
+Add $R_HOME/lib/ to the LD_LIBRARY_PATH environment variable
+so that the operating system can find the libR.so file
+at run-time.
+
+The scripts  RMatlab.csh (tcsh or csh shells) or RMatlab.sh (Bourne (sh) or Bash (bash) shells)
+in the scripts/ directory of the _installed_ R package will set things correctly
+for you. Just source them into your shell:
+  source RMatlab.csh 
+or
+  . RMatlab.sh
+
+depending on which type of shell you are using.
+
+
+
+
+Set the location of the R installation so that the R engine
+can find its code.
+
+  setenv R_HOME `R RHOME`
+
+Set the environment variable LD_LIBRARY_PATH to 
+
+   setenv LD_LIBRARY_PATH $R_HOME/lib
+
+(or $R_HOME/bin for versions of R pre 2.0.0)
+
+
+Initialize the R engine.
+
+   x = initializeR({'Rmatlab' '--no-save', '--silent'})
+
+Note that the arguments are given using a Matlab cell ({})
+rather than a matrix. Any number of recognized arguments
+can be passed to R just as one would invoke it from the
+command line.
+
+
+
+Call a simple R function.
+
+  o = callR('date')
+
+   
+  o = callR('rnorm', 10)
+
+    # generate 50 Normal deviates from N(100, 1)
+  o = callR('rnorm', 50, 100)
+
+    # Poisson random variable.
+  o = callR('rpois', 50, 3)
+
+
+
+
+Calling Matlab from within R.
+
+First, set the LD_LIBRARY_PATH environment
+variable to find the relevant Matlab shared libraries.
+On Linux, this is 
+ <Matlab installation>/bin/glnx86
+
+Now, run R.
+
+ > library(RMatlab)
+
+ > .MatlabInit()
+
+ > .Matlab('magic', 3)
+
+
+To call Matlab from R that is already within a Matlab session
+(i.e. starting from Matlab and calling an R function that itself
+calls Matlab), you can use
+
+  .MatlabMexCall
+
+rather than .Matlab.
+In the future, there will be numerous other 
+functions that one can access and the package
+will automatically understand which version to
+use.
+
+
+
+DTL (Nov, 2 2004)
+

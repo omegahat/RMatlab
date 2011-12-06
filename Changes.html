@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+</head>
+
+<body>
+<h1>Versions </h1>
+
+<h2>Version 0.2-6</h2>
+<dl>
+  <dt>
+  <li> Patches by Nicola Soranzo to deal with the C stack and threads.
+  <dd>      This is a problem when R is running within a Matlab
+      session   that uses threads.
+</dl>
+
+<h2>Version 0.2-5</h2>
+ <dl>
+  <dt>
+  <li> Several patches from Nicola Soranzo to update the code.
+  <dd>  Change mxErrMsgTxt() to mexErrMsgTxt().
+ </dl>
+<h2>Version 0.2-4</h2>
+
+<dl>
+ <dt>
+  <li> mkChar() rather thank mkString() in return from loadRMatlab().
+ <dd> 
+ <dt>
+  <li> parentheses for the "nrhs - (haveNames ? 2 : 1)"
+ </dd> Identified by Nicola Soranzo. Thanks.
+</dl>
+
+
+<h2>Version 0.2-3</h2>
+ <dl>
+  <dt>
+  <li> Fix for the return value of the initialization of the Matlab engine.
+  <dd>
+ </dl>
+
+
+<h2>Version 0.2-2</h2>
+
+<dl>
+ <dt>
+ <li> Fix of a bug in converting R named lists to Matlab structs where the names in the R list contain one or more '.' characters.
+ <dd>
+      Identified by Bitao Liu and Ping-Shi Wu.
+ <dt>
+ <li> Initial configuration efforts to handle the lack of the     matlab compiler,
+      i.e. t he "mclmcr.h" header file
+ <dd>
+</dl>
+
+
+<h2>Version 0.2-1</h2>
+
+<dl>
+  <dt>
+  <li>  Move the mex files to inst/mex so they are installed in the
+        mex/ directory in the top-level directory of the R package.
+  <dd>  Update the RMatlab.csh.in and RMatlab.sh.in files accordingly.
+
+  <dt>
+  <li>  Compute configuration information for avoiding the  .map files
+        in the MEX compilation.
+  <dd>  This is needed when using MEX to compile the .so for R.
+</dl>
+
+
+<h2>Version 0.2-0</h2>
+
+<dl>
+
+  <dt>
+  <li> Added the shell scripts to set the relevant environmen variables.
+  <dd> RMatlab.csh and RMatlab.sh in  the installed package's scripts/
+       directory.
+  <dt>
+  <li>  Mex facilities for getting and setting Graphics Handle properties.
+  <dd>
+
+  <dt>
+  <li>  MEX and Engine interfaces automatically detected
+        and methods selected on the type of interface.
+  <dd>
+
+  <dt>
+  <li>  Operator overloading for  $, [, [[, [&lt;-
+        when used with the engines.
+  <dd>
+      
+  <dt>
+  <li> Conversion of R lists.
+  <dd>
+
+  <dt>
+  <li> callNamedR to allow named arguments in calls to R functions.
+  <dd>
+
+
+  <dt>
+  <li> Error Handling
+  <dd>
+      <dl>
+  <dt>
+  <li> Checks in callR and callNamedR for function name being a string.
+  <dd>	
+  <dt> Even number of elements in named arguments cell for callNamedR.
+  <dd>
+      </dl>
+      
+</dl>
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->Last modified: Tue May 24 16:42:15 PDT 2005 <!-- hhmts end -->
+</body> </html>

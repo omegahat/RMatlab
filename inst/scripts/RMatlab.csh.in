@@ -1,0 +1,24 @@
+
+if !(${?MATLABPATH}) then
+   setenv MATLABPATH @R_PACKAGE_DIR@/mex
+else
+   setenv MATLABPATH @R_PACKAGE_DIR@/mex:$MATLABPATH
+endif
+
+
+setenv R_HOME @R_HOME@
+
+if ("@R_SHARED_LIB_DIR@" != "") then
+ if !(${?LD_LIBRARY_PATH}) then
+     setenv LD_LIBRARY_PATH @R_SHARED_LIB_DIR@
+ else
+      setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:@R_SHARED_LIB_DIR@
+ endif
+endif
+
+if !(${?LD_LIBRARY_PATH}) then
+     setenv LD_LIBRARY_PATH @MATLAB_LIB_DIR@
+else
+      setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:@MATLAB_LIB_DIR@
+endif
+

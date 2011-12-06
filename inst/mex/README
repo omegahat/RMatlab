@@ -1,0 +1,2 @@
+This is where the mex files are moved when built in the src/
+directory so that they are placed in the installed package.

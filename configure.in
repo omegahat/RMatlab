@@ -1,0 +1,107 @@
+AC_INIT(DESCRIPTION)
+
+# Need to test version of matlab is >= 7.0 (release 14)
+
+if test -z "${MEX}" ; then
+  AC_PATH_PROG(MEX, mex)
+fi
+
+AC_SUBST(MEX)
+
+if test -z "$MEX" ; then
+ echo "Cannot find the mex compiler for Matlab. Please add the Matlab bin/ directory to your path and resinstall"
+ exit 1
+fi
+
+
+AC_PATH_PROG(SED, sed)
+
+MEX_LD_EXTENSION=`$MEX -v 2>/dev/null | grep LDEXTENSION | $SED -e 's/.*= \.//'`
+AC_SUBST(MEX_LD_EXTENSION)
+
+
+# Strip away the use of the .map file.
+# Note the use of [[ ]] to escape the [] from the m4 processor.
+R_SO_MEX_LDFLAGS=`$MEX -v 2>/dev/null | grep LDFLAGS | sed -e 's/.*= //' | sed -e 's/-[[^ ]]*\.map//'`
+AC_SUBST(R_SO_MEX_LDFLAGS)
+
+
+
+if test -z "$R_SHARED_LIB_DIR" ; then
+
+  R_SHARED_LIB_DIR=""
+
+
+  if test -r $R_HOME/lib/libR.so ; then
+     R_SHARED_LIB_DIR=$R_HOME/lib
+  elif test -r $R_HOME/bin/libR.so ; then
+     R_SHARED_LIB_DIR=$R_HOME/bin
+  fi
+
+fi
+
+
+if test -z "$R_SHARED_LIB_DIR"  ; then
+ echo "There is no R shared library (libR.so), so you cannot run R within Matlab."
+ echo "You will only be able to start Matlab from within R"
+ echo "If this is not what you want, reinstall R from source with the configuration option"
+ echo ""
+ echo "  ./configure --enable-R-shlib"
+ echo ""
+ echo ""
+ echo " If you have already compiled R as a shared library but this script has not been able"
+ echo " to find it, set the environment variable R_SHARED_LIB_DIR to the name of the directory"
+ echo " in which it is located and re-install this package"
+fi
+
+
+AC_SUBST(R_SHARED_LIB_DIR)
+AC_SUBST(R_HOME)
+AC_SUBST(R_PACKAGE_DIR)
+
+
+if test -z "${NO_MCLMCR_H}" ; then
+ echo "Looking for mclmcr.h"
+  AC_TRY_COMPILE([#include "mclmcr.h"],[], [DEFINES="-DHAVE_MATLAB_COMPILER"], [echo "Didn't find mclmcr.h"])
+fi
+
+
+MATLAB_LIB_DIR=""
+AC_SUBST(MATLAB_LIB_DIR)
+
+
+AC_SUBST(DEFINES)
+
+
+AC_OUTPUT(inst/scripts/RMatlab.csh inst/scripts/RMatlab.sh src/Makefile)
+
+
+echo "Using the following settings"
+echo ""
+echo "  Mex compiler:               $MEX"
+echo "  Mex extension:              $MEX_LD_EXTENSION"
+echo "  Mex linker flags:           $R_SO_MEX_LDFLAGS"
+echo "  R shared library directory: $R_SHARED_LIB_DIR"
+echo "  Installation directory:     $R_PACKAGE_DIR"
+
+
+echo ""
+echo ""
+echo "*********************************************************"
+echo ""
+echo "  To set the environment variables to run R from within Matlab"
+echo "  or vice versa, source the relevant shell script into your shell"
+echo "  before running Matlab or R"
+echo ""
+echo "  Bourne or Bash shell:   "
+echo ""
+echo "     . $R_PACKAGE_DIR/scripts/RMatlab.sh"
+
+echo ""
+
+echo "  Csh or Tcsh shell:   "
+echo ""
+echo "     source $R_PACKAGE_DIR/scripts/RMatlab.csh"
+
+echo ""
+echo "*********************************************************"

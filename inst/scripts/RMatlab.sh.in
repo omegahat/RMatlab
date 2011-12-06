@@ -1,0 +1,26 @@
+if test -z "$MATLABPATH" ; then
+   MATLABPATH=@R_PACKAGE_DIR@/mex
+else
+   MATLABPATH=@R_PACKAGE_DIR@/mex:$MATLABPATH
+fi
+
+export MATLABPATH
+
+
+R_HOME=@R_HOME@
+export R_HOME
+
+if test -n "@R_SHARED_LIB_DIR@" ; then
+ if test -z "$LD_LIBRARY_PATH" ; then
+     LD_LIBRARY_PATH=@R_SHARED_LIB_DIR@
+ else
+     LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:@R_SHARED_LIB_DIR@
+ fi
+fi
+
+
+if test -z "${LD_LIBRARY_PATH}" ;  then
+     export LD_LIBRARY_PATH=@MATLAB_LIB_DIR@
+else
+     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:@MATLAB_LIB_DIR@
+fi

@@ -1,0 +1,36 @@
+Package: RMatlab
+Version: 0.2-6
+Title: R-Matlab interface 
+Author: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+SystemRequirements: Matlab 7.0 or higher.
+Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Description: This package provides a bi-directional interface between 
+  R and Matlab.  It allows Matlab users to call R functions, passing
+  Matlab objects as arguments to the R functions and receiving the
+  result as a regular Matlab object.  It also allows R users to call
+  Matlab functions and evaluate Matlab commands from within R in the
+  same fashion.  This allows users of the two systems to access
+  functionality in the other in a reasonably transparent manner
+  without the need to manage data from on to the other via files, or
+  translating code, or programming in two languages.  Thus, advanced
+  and well-tested statistical facilities become available to Matlab
+  users, and toolboxes for a wide variety of different tasks become
+  accessible to R users.
+License: GPL
+URL: http://www.omegahat.org/RMatlab
+Limitations: 
+  So far, this only works on Unix, and has only been tested on Linux.
+  Mac OSX should be relatively easy. Windows requires some changes to
+  the initialization and configuration. All help is gratefully received,
+  especially as I do not have access to Matlab on these different platforms.
+  Currently, the conversion of objects is almost complete, handling
+  all the basic types such as vectors, matrices, arrays, structures,
+  cells, lists, named lists for the basic types: numeric, character,
+  logical, integer.  We do not yet handle the different forms of
+  integers in Matlab (e.g. uint, uint8, uint64, etc.)
+Note:  One needs to set the necessary environment variables to access 
+  Matlab from R and R from Matlab to find the relevant shared libraries/DLLs.
+  See the shell scripts in the scripts/ directory of the installed R package.
+  You can find this with the command
+      echo ".find.package('RMatlab')"  | R --no-save --silent
+

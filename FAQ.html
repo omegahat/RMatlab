@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>FAQ for the RMatlab Package</title>
+</head>
+
+<body>
+<h1>FAQ for the RMatlab Package</h1>
+
+
+<dl>
+  <dt>
+  <li><b> When I try to run R inside Matlab, I get the following error</b>:
+<pre>
+>> initializeR({'RMatlab' '--silent' '--vanilla'})
+initializeR({'RMatlab' '--silent' '--vanilla'})
+??? Undefined command/function 'initializeR'.
+</pre>      
+  <dd>
+       The problem is that you have to tell Matlab where to find the
+  MEX files that makeup the Matlab-to-R interface. You do this (on
+   Unix, at least) by setting the environment variable
+      <code>MATLABPATH</code> to contain the  directory containing
+      the MEX files.
+      These are installed in the R package directories.
+      The simplest way to
+  <dt>
+  <li><b>When I try to run Matlab inside R, I get the following error</b>:
+<pre>
+> library(RMatlab)
+Error in dyn.load(x, as.logical(local), as.logical(now)) :
+        unable to load shared library "/home/sharesly/Rpackages/RMatlab/libs/RMatlab.so":
+  libeng.so: cannot open shared object file: No such file or directory
+Error in library(RMatlab) : package/namespace load failed for 'RMatlab'
+</pre>
+  <dd> 
+     The problem is that you have to tell R where to find the relevant
+ Matlab shared libraries. You do this (on Unix, at least) by setting the 
+ environment variable <code>LD_LIBRARY_PATH</code> to contain the directory
+ containing the necessary *.so files. For instance,
+<pre>
+    <i>setenv LD_LIBRARY_PATH /usr/local/matlab-7.0.1/bin/glnx86:{LD_LIBRARY_PATH}</i>
+</pre> 
+</dl>
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Thu Nov  4 18:07:44 PST 2004
+<!-- hhmts end -->
+</body> </html>
